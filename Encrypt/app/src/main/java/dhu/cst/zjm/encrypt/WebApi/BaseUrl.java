@@ -8,9 +8,9 @@ public interface BaseUrl {
     String BASEHTTP = "http://";
     String BASEWEBSOCKET = "ws://";
     String BASEPORT = ":8080/Encrypt/";
-    //String BASEIP="192.168.31.219";
+    String BASEIP="192.168.31.219";
      //String BASEIP = "115.159.73.148";
-    String BASEIP = "10.202.119.28";
+    //String BASEIP = "10.202.119.28";
     //String BASEIP = "10.0.2.2";
     String WEB_SERVICE = "web_service/";
     String CONTENT_TYPE_JSON = "application/json; charset=utf-8";

@@ -96,7 +96,7 @@ public class Menu_File_Type_Adapter extends RecyclerSwipeAdapter<Menu_File_Type_
                 }
             }
         });
-        holder.b_menu_file_type_details.setOnClickListener(new View.OnClickListener() {
+        holder.iv_menu_file_type_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
@@ -130,7 +130,8 @@ public class Menu_File_Type_Adapter extends RecyclerSwipeAdapter<Menu_File_Type_
 
         TextView tv_rv_menu_file_type_name;
         SwipeLayout sl_menu_file_type_item;
-        Button b_menu_file_type_encrypt, b_menu_file_type_details,b_menu_file_type_download, b_menu_file_type_decrypt;
+        Button b_menu_file_type_encrypt,b_menu_file_type_download, b_menu_file_type_decrypt;
+        ImageView iv_menu_file_type_details;
 
         public MyViewHolder(View view) {
             super(view);
@@ -138,7 +139,7 @@ public class Menu_File_Type_Adapter extends RecyclerSwipeAdapter<Menu_File_Type_
             tv_rv_menu_file_type_name = (TextView) view.findViewById(R.id.tv_ll_menu_file_type_name);
             b_menu_file_type_encrypt = (Button) view.findViewById(R.id.b_menu_file_type_encrypt);
             b_menu_file_type_download = (Button) view.findViewById(R.id.b_menu_file_type_download);
-            b_menu_file_type_details = (Button) view.findViewById(R.id.b_menu_file_type_details);
+            iv_menu_file_type_details = (ImageView) view.findViewById(R.id.iv_menu_file_type_details);
             b_menu_file_type_decrypt = (Button) view.findViewById(R.id.b_menu_file_type_decrypt);
         }
     }

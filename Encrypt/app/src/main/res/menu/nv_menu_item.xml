@@ -16,7 +16,6 @@
                 android:title="Information"
                 android:icon="@drawable/ic_description_black_48dp"/>
             <item
-                android:checkable="true"
                 android:title="Upload File"
                 android:icon="@drawable/ic_file_upload_black_48dp"
                 android:id="@+id/nV_Menu_Item_Upload_File"/>

@@ -1,17 +1,12 @@
 package dhu.cst.zjm.encrypt.WebApi;
 
-import com.google.gson.Gson;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.ResponseBody;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Base.MapKey.MenuMap;
 import dhu.cst.zjm.encrypt.Views.UI_Menu_Action;
 import okio.Buffer;
 import okio.BufferedSink;

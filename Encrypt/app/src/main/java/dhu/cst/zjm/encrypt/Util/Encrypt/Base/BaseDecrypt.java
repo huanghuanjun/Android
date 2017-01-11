@@ -8,8 +8,6 @@ import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
 import dhu.cst.zjm.encrypt.Util.ZipUtil;
 import dhu.cst.zjm.encrypt.WebApi.BaseUrl;
 
-import static android.R.id.message;
-
 /**
  * Created by 10424 on 2017/1/11.
  */

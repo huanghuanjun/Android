@@ -37,6 +37,7 @@ import com.google.gson.Gson;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ import dhu.cst.zjm.encrypt.Stores.LoginStore;
 import dhu.cst.zjm.encrypt.Stores.MenuStore;
 import dhu.cst.zjm.encrypt.Views.Fragment.UI_Menu_File_List;
 import dhu.cst.zjm.encrypt.Views.Fragment.UI_Menu_File_Type;
+import dhu.cst.zjm.encrypt.WebApi.BaseUrl;
 
 import static dhu.cst.zjm.encrypt.Util.Get_File_From_Uri.getPath;
 
@@ -114,7 +116,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         loginStore = LoginStore.get(dispatcher);
         user = new User();
         PathAndKey.setMainPath(Environment.getExternalStorageDirectory().getAbsolutePath());
-        Log.i("a",PathAndKey.getPath());
+        Log.i("a", PathAndKey.getPath());
     }
 
     @Override
@@ -445,7 +447,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
             @Override
             public void run() {
                 setupEncryptProgressDialog();
-                adb_menu_file_encrypt.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                adb_menu_file_encrypt.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -456,6 +458,22 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
                 actionsCreator.Encrypt_File(s);
             }
         });
+    }
+
+    private boolean confirmDecryptFileExist(EncryptFile encryptFile) {
+        PathAndKey pathAndKey = new PathAndKey();
+        pathAndKey.setPath(PathAndKey.getPath() + encryptFile.getUserId() + "/");
+        String fileName = encryptFile.getFileName();
+        String[] s = fileName.split("\\.");
+        String fileRealName = s[0]+ BaseUrl.DOWNLOAD_FILE_TYPE;
+        File file = new File(pathAndKey.getFileSavePath() + fileRealName);
+        if (file.exists()) {
+            return true;
+        } else {
+            Snackbar snackbar = Snackbar.make(dl_ui_menu, "Must first download!", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }
     }
 
 
@@ -527,7 +545,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
 
     @Override
     public void onBackPressed() {
-        getFragmentManager().popBackStackImmediate();
+        getFragmentManager().popBackStack();
     }
 
 
@@ -546,17 +564,6 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         ft_menu_main.commit();
     }
 
-//    @Override
-//    public void typeListItemClick(ServerFile serverFile, EncryptType encryptType) {
-//        fm_menu_main = getFragmentManager();
-//        ft_menu_main = fm_menu_main.beginTransaction();
-//        Log.i("a", serverFile.getName());
-//        ui_menu_file_encrypt = new UI_Menu_File_Encrypt(serverFile, encryptType);
-//        ft_menu_main.replace(R.id.rl_Menu_Main, ui_menu_file_encrypt);
-//        ft_menu_main.addToBackStack(null);
-//        ft_menu_main.commit();
-//    }
-
     @Override
     public User getUser() {
         return user;
@@ -573,6 +580,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
 
     @Override
     public void encryptClick(EncryptFile encryptFile) {
+
         switch (encryptFile.getTypeId()) {
             case EncryptMap.BASE:
                 setupEncryptExinfDialog();
@@ -581,9 +589,15 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
                 adb_menu_file_encrypt.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ef.setExInf(et_menu_file_encrypt_exinf.getText().toString());
-                        actionsCreator.Set_Encrypt_Inf(encryptFileToJson(ef));
-                        dialog.dismiss();
+                        String i = et_menu_file_encrypt_exinf.getText().toString();
+                        if (i.length() < 8) {
+                            Snackbar snackbar = Snackbar.make(dl_ui_menu, "DES Key at least 8 bit!", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        } else {
+                            ef.setExInf(i);
+                            actionsCreator.Set_Encrypt_Inf(encryptFileToJson(ef));
+                            dialog.dismiss();
+                        }
                     }
                 });
                 adb_menu_file_encrypt.show();
@@ -608,19 +622,21 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
 
     @Override
     public void decryptClick(EncryptFile encryptFile) {
-        switch (encryptFile.getTypeId()) {
-            case EncryptMap.BASE:
-                setupEncryptProgressDialog();
-                adb_menu_file_encrypt.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                sourceEncryptInfList.clear();
-                adb_menu_file_encrypt.show();
-                actionsCreator.Decrypt_File(encryptFileToJson(encryptFile));
-                break;
+        if (confirmDecryptFileExist(encryptFile)) {
+            switch (encryptFile.getTypeId()) {
+                case EncryptMap.BASE:
+                    setupEncryptProgressDialog();
+                    adb_menu_file_encrypt.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    sourceEncryptInfList.clear();
+                    adb_menu_file_encrypt.show();
+                    actionsCreator.Decrypt_File(encryptFileToJson(encryptFile));
+                    break;
+            }
         }
     }
 

@@ -1,48 +1,46 @@
 package dhu.cst.zjm.encrypt.Views.Fragment;
 
 import android.app.Fragment;
-import android.app.ListFragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.yalantis.phoenix.PullToRefreshView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import dhu.cst.zjm.encrypt.Adapter.Menu_File_Adapter;
 import dhu.cst.zjm.encrypt.Models.ServerFile;
 import dhu.cst.zjm.encrypt.Models.User;
 import dhu.cst.zjm.encrypt.R;
+import dhu.cst.zjm.encrypt.Util.AppBarLayout.SwipyAppBarScrollListener;
 
 /**
  * Created by admin on 2017/1/3.
  */
 
-public class UI_Menu_File_List extends ListFragment {
+public class UI_Menu_File_List extends Fragment {
 
     private View view;
+    private RecyclerView rcv_menu_file_list;
     private List<ServerFile> souceServerFileList;
     private Menu_File_Adapter menu_file_adapter;
     private PullToRefreshView ptrv_menu_file_list;
     private Menu_File_List_Interface menu_file_list_interface;
     private ImageView iv_menu_toolbar;
+    private AppBarLayout abl_ui_menu;
     private CollapsingToolbarLayout ctl_menu;
     private User user;
 
-    public UI_Menu_File_List(User user){
-        this.user=user;
+    public UI_Menu_File_List(User user) {
+        this.user = user;
     }
 
     @Override
@@ -62,16 +60,6 @@ public class UI_Menu_File_List extends ListFragment {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
     private void setupView(View view) {
 
 
@@ -89,9 +77,11 @@ public class UI_Menu_File_List extends ListFragment {
             }
         });
 
+
+        rcv_menu_file_list = (RecyclerView) view.findViewById(R.id.rcv_menu_file_list);
         souceServerFileList = new ArrayList<ServerFile>();
         menu_file_list_interface.getSourceList();
-
+        rcv_menu_file_list.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         menu_file_adapter = new Menu_File_Adapter(getActivity(), souceServerFileList);
         menu_file_adapter.setOnItemClickListener(new Menu_File_Adapter.OnItemClickListener() {
             @Override
@@ -99,16 +89,21 @@ public class UI_Menu_File_List extends ListFragment {
                 menu_file_list_interface.fileListItemClick(souceServerFileList.get(postion));
             }
         });
-        setListAdapter(menu_file_adapter);
+
+        rcv_menu_file_list.setAdapter(menu_file_adapter);
     }
 
-    private void setupActivityView(){
+    private void setupActivityView() {
+        abl_ui_menu = (AppBarLayout) getActivity().findViewById(R.id.abl_ui_menu);
+
         iv_menu_toolbar = (ImageView) getActivity().findViewById(R.id.iv_menu_toolbar);
         iv_menu_toolbar.setVisibility(View.VISIBLE);
 
         ctl_menu = (CollapsingToolbarLayout) getActivity().findViewById(R.id.ctl_menu);
         ctl_menu.setContentScrimColor(getResources().getColor(R.color.transparent));
         ctl_menu.setTitle(user.getName());
+
+        rcv_menu_file_list.addOnScrollListener(new SwipyAppBarScrollListener(abl_ui_menu, ptrv_menu_file_list, rcv_menu_file_list));
     }
 
     public interface Menu_File_List_Interface {

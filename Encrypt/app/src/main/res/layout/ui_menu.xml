@@ -11,6 +11,7 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
+            android:id="@+id/abl_ui_menu"
             android:layout_height="256dp">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -18,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:expandedTitleMarginStart="48dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
 
                 <TextView
@@ -36,6 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"
                     android:src="@drawable/menu_background_shanghai" />
 
 
@@ -44,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_scrollFlags="scroll|enterAlways"
+                    app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_list_black_48dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:title="@string/app_name" />

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right"
-        android:background="@color/colorAccent"
+        android:background="#6959CD"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -34,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginRight="10dp"
             android:layout_weight="4"
             android:background="#fff"
             android:text="Yes,Encrypt!"
@@ -44,77 +45,105 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:background="@color/transparent"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="2">
 
-        <ImageView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:clickable="true"
-            android:src="@drawable/ic_file_download_black_48dp" />
+            android:background="#999999">
 
-        <Button
-            android:id="@+id/b_menu_file_type_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="#fff"
-            android:text="Download!"
-            android:textColor="#000" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                android:src="@drawable/ic_file_download_black_48dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:src="@drawable/ic_unlock_black_48dp" />
+            <Button
+                android:id="@+id/b_menu_file_type_download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:background="#fff"
+                android:text="Download!"
+                android:textColor="#000" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/b_menu_file_type_decrypt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#fff"
-            android:text="Decrypt!"
-            android:textColor="#000" />
+            android:background="#999999">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_unlock_black_48dp" />
+
+            <Button
+                android:id="@+id/b_menu_file_type_decrypt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:background="#fff"
+                android:text="Decrypt!"
+                android:textColor="#000" />
+        </LinearLayout>
 
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@color/colorPrimary"
+        android:background="#999999"
         android:orientation="horizontal"
         android:weightSum="10">
 
-        <TextView
-            android:id="@+id/tv_ll_menu_file_type_name"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:text="Base"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/b_menu_file_type_details"
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/sh1400270" />
+
+            <TextView
+                android:id="@+id/tv_ll_menu_file_type_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="19dp"
+                android:text="Base"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_menu_file_type_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:layout_weight="7"
-            android:background="#fff"
-            android:gravity="center"
-            android:text="Details" />
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="9"
+            android:src="@drawable/ic_more_vert_black_48dp" />
 
     </LinearLayout>
+
 
 </com.daimajia.swipe.SwipeLayout>

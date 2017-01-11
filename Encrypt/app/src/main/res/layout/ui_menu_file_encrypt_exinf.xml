@@ -9,6 +9,9 @@
         android:id="@+id/et_menu_file_encrypt_exinf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="1"/>
+        android:maxLength="16"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:ems="16"/>
 
 </LinearLayout>
