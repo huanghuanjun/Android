@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sl_menu_file_type_item"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_vpn_key_black_48dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:text="Encrypt this File?"
+            android:textColor="#000" />
+
+        <Button
+            android:id="@+id/b_menu_file_type_encrypt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:background="#fff"
+            android:text="Yes,Encrypt!"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/transparent"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/ic_file_download_black_48dp" />
+
+        <Button
+            android:id="@+id/b_menu_file_type_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:text="Download!"
+            android:textColor="#000" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_unlock_black_48dp" />
+
+        <Button
+            android:id="@+id/b_menu_file_type_decrypt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:text="Decrypt!"
+            android:textColor="#000" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/tv_ll_menu_file_type_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="Base"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/b_menu_file_type_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_weight="7"
+            android:background="#fff"
+            android:gravity="center"
+            android:text="Details" />
+
+    </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_lv_menu_file_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="File name"
+        android:id="@+id/tv_lv_menu_file_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123.00 MB"
+        android:id="@+id/tv_lv_menu_file_size"
+        android:layout_below="@id/tv_lv_menu_file_name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2017-01-03 18:14:00"
+        android:id="@+id/tv_lv_menu_file_upload_time"
+        android:layout_alignTop="@id/tv_lv_menu_file_size"
+        android:layout_marginLeft="200dp"/>
+
+</RelativeLayout>
