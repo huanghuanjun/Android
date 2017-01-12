@@ -1,10 +1,11 @@
-package dhu.cst.zjm.encrypt.WebApi;
+package dhu.cst.zjm.encrypt.web_api.web_body;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 
+import dhu.cst.zjm.encrypt.web_api.ProgressListener;
 import okio.Buffer;
 import okio.BufferedSource;
 import okio.ForwardingSource;
@@ -12,7 +13,7 @@ import okio.Okio;
 import okio.Source;
 
 /**
- * Created by admin on 2017/1/10.
+ * Created by zjm on 2017/1/10.
  */
 
 public class DownloadFileResponseBody extends ResponseBody {

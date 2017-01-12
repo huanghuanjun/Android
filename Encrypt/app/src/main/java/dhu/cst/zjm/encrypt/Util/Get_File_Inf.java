@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Util;
+package dhu.cst.zjm.encrypt.util;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public class Get_File_Inf {

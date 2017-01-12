@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Views;
+package dhu.cst.zjm.encrypt.views;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -42,29 +42,29 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Adapter.Menu_File_Encrypt_Adapter;
-import dhu.cst.zjm.encrypt.Base.MapKey.EncryptMap;
-import dhu.cst.zjm.encrypt.Base.PathAndKey;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Models.EncryptFile;
-import dhu.cst.zjm.encrypt.Models.EncryptInf;
-import dhu.cst.zjm.encrypt.Models.EncryptType;
-import dhu.cst.zjm.encrypt.Models.ServerFile;
-import dhu.cst.zjm.encrypt.Models.User;
+import dhu.cst.zjm.encrypt.action.ActionsCreator;
+import dhu.cst.zjm.encrypt.adapter.Menu_File_Encrypt_Adapter;
+import dhu.cst.zjm.encrypt.base_data.map_key.EncryptMap;
+import dhu.cst.zjm.encrypt.base_data.PathAndKey;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.models.EncryptFile;
+import dhu.cst.zjm.encrypt.models.EncryptInf;
+import dhu.cst.zjm.encrypt.models.EncryptType;
+import dhu.cst.zjm.encrypt.models.ServerFile;
+import dhu.cst.zjm.encrypt.models.User;
 import dhu.cst.zjm.encrypt.R;
-import dhu.cst.zjm.encrypt.Service.Menu_Service;
-import dhu.cst.zjm.encrypt.Stores.ChangePoint;
-import dhu.cst.zjm.encrypt.Stores.LoginStore;
-import dhu.cst.zjm.encrypt.Stores.MenuStore;
-import dhu.cst.zjm.encrypt.Views.Fragment.UI_Menu_File_List;
-import dhu.cst.zjm.encrypt.Views.Fragment.UI_Menu_File_Type;
-import dhu.cst.zjm.encrypt.WebApi.BaseUrl;
+import dhu.cst.zjm.encrypt.service.Menu_Service;
+import dhu.cst.zjm.encrypt.stores.ChangePoint;
+import dhu.cst.zjm.encrypt.stores.LoginStore;
+import dhu.cst.zjm.encrypt.stores.MenuStore;
+import dhu.cst.zjm.encrypt.views.fragment.UI_Menu_File_List;
+import dhu.cst.zjm.encrypt.views.fragment.UI_Menu_File_Type;
+import dhu.cst.zjm.encrypt.base_data.BaseUrl;
 
-import static dhu.cst.zjm.encrypt.Util.Get_File_From_Uri.getPath;
+import static dhu.cst.zjm.encrypt.util.Get_File_From_Uri.getPath;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu_File_List_Interface, UI_Menu_File_Type.Menu_File_Type_Interface {
@@ -77,14 +77,13 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
     private ServiceConnection menu_service_connection;
     private boolean isBind = false;
     private Menu_Service.MyBinder menu_service_binder;
-
     private User user;
     private boolean isLogin = false;
-
-    //Ui相关
-    private DrawerLayout dl_ui_menu;
+    private List<EncryptInf> sourceEncryptInfList = new ArrayList<EncryptInf>();
+    private Menu_File_Encrypt_Adapter menu_file_encrypt_adapter;
     private FragmentManager fm_menu_main;
     private FragmentTransaction ft_menu_main;
+    private DrawerLayout dl_ui_menu;
     private UI_Menu_File_List ui_menu_file_list;
     private UI_Menu_File_Type ui_menu_file_type;
     private NavigationView nv_menu_person;
@@ -94,9 +93,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
     private android.support.v7.app.AlertDialog.Builder adb_menu_file_encrypt, adb_others;
     private ListView lv_menu_file_encrypt;
     private EditText et_menu_file_encrypt_exinf;
-    private List<EncryptInf> sourceEncryptInfList = new ArrayList<EncryptInf>();
     private View v_menu_file_encrypt;
-    private Menu_File_Encrypt_Adapter menu_file_encrypt_adapter;
 
 
     @Override
@@ -115,8 +112,8 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         menuStore = MenuStore.get(dispatcher);
         loginStore = LoginStore.get(dispatcher);
         user = new User();
+        //用户保存目录
         PathAndKey.setMainPath(Environment.getExternalStorageDirectory().getAbsolutePath());
-        Log.i("a", PathAndKey.getPath());
     }
 
     @Override
@@ -182,6 +179,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
 
         tb_menu_title = (Toolbar) findViewById(R.id.tb_menu_title);
         setSupportActionBar(tb_menu_title);
+
         ctl_menu = (CollapsingToolbarLayout) findViewById(R.id.ctl_menu);
         ctl_menu.setTitle(getResources().getString(R.string.app_name));
         ctl_menu.setExpandedTitleColor(Color.WHITE);//设置还没收缩时状态下字体颜色
@@ -200,9 +198,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
                 item.setChecked(true);
                 dl_ui_menu.closeDrawers();
                 mPreMenuItem = item;
-
                 navigationViewClick(item);
-
                 return true;
             }
         });
@@ -221,9 +217,11 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         pd_file_progress.setCancelable(false);
         pd_file_progress.setCanceledOnTouchOutside(false);
 
-
     }
 
+    /**
+     * 初始化加密额外信息对话框
+     */
     private void setupEncryptExinfDialog() {
         LayoutInflater inflater = getLayoutInflater();
         v_menu_file_encrypt = inflater.inflate(R.layout.ui_menu_file_encrypt_exinf, (ViewGroup) findViewById(R.id.ll_menu_file_encrypt_exinf));
@@ -232,6 +230,9 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         adb_menu_file_encrypt.setView(v_menu_file_encrypt);
     }
 
+    /**
+     * 初始化加密进度条对话框
+     */
     private void setupEncryptProgressDialog() {
         LayoutInflater inflater = getLayoutInflater();
         v_menu_file_encrypt = inflater.inflate(R.layout.ui_menu_file_encrypt, (ViewGroup) findViewById(R.id.rl_menu_file_encrypt));
@@ -246,6 +247,9 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         adb_others = new android.support.v7.app.AlertDialog.Builder(this);
     }
 
+    /**
+     * 选择文件
+     */
     private void chooseFile() {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
@@ -253,6 +257,11 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         startActivityForResult(chooseFile, UI_Menu_Action.UPLOAD_FILE);
     }
 
+    /**
+     * 抽屉菜单点击事件
+     *
+     * @param item
+     */
     private void navigationViewClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nV_Menu_Item_Home:
@@ -267,20 +276,25 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         }
     }
 
+    /**
+     * 获取用户信息
+     */
     private void getUserInf() {
         actionsCreator.Get_User_Inf();
     }
 
+    /**
+     * 更新用户信息
+     *
+     * @param event
+     */
     private void updateUserInf(LoginStore.LoginStoreChangeEvent event) {
         user = new User(event.getLoginInternetID(), event.getLoginInternetName());
         this.isLogin = event.getIsLoginInternet();
-
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 setupFragment();
-
                 RelativeLayout nv_menu_header = (RelativeLayout) nv_menu_person.inflateHeaderView(R.layout.nv_menu_header);
                 nv_menu_person.removeHeaderView(nv_menu_person.getHeaderView(0));
                 TextView tv_nv_menu_id = (TextView) nv_menu_header.findViewById(R.id.tv_nv_menu_id);
@@ -293,6 +307,44 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
 
     }
 
+
+    /**
+     * 更新上传文件列表
+     *
+     * @param list 文件列表
+     */
+    private void updateMenuFileList(List<ServerFile> list) {
+        final List<ServerFile> l = list;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ui_menu_file_list.updateSourceMenuFileList(l);
+            }
+        });
+    }
+
+    /**
+     * 更新加密方式列表
+     *
+     * @param list 方式列表
+     */
+    private void updateMenuFileType(List<EncryptType> list) {
+        final List<EncryptType> l = list;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ui_menu_file_type.updateSourceMenuFileType(l);
+            }
+        });
+    }
+
+    /**
+     * 检查webSocket连接
+     *
+     * @param isConnect 连接状态
+     */
     private void confirmConnect(boolean isConnect) {
         if (isConnect) {
             Snackbar snackbar = Snackbar.make(dl_ui_menu, "Connection Success!", Snackbar.LENGTH_LONG);
@@ -302,6 +354,9 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         }
     }
 
+    /**
+     * webSocket连接失败
+     */
     private void connectFailed() {
         runOnUiThread(new Runnable() {
             @Override
@@ -322,28 +377,11 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         });
     }
 
-    private void updateMenuFileList(List<ServerFile> list) {
-        final List<ServerFile> l = list;
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ui_menu_file_list.updateSouceMenuFileList(l);
-            }
-        });
-    }
-
-    private void updateMenuFileType(List<EncryptType> list) {
-        final List<EncryptType> l = list;
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ui_menu_file_type.updateSouceMenuFileType(l);
-            }
-        });
-    }
-
+    /**
+     * webSocket连接出错
+     *
+     * @param e 出错异常
+     */
     private void menuConnectError(Exception e) {
         e.printStackTrace();
         runOnUiThread(new Runnable() {
@@ -365,6 +403,11 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         });
     }
 
+    /**
+     * webSocket连接关闭
+     *
+     * @param reason 关闭原因
+     */
     private void menuConnectClose(final String reason) {
         runOnUiThread(new Runnable() {
             @Override
@@ -385,6 +428,11 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         });
     }
 
+    /**
+     * webSocket接受服务器消息
+     *
+     * @param message 消息
+     */
     private void menuConnectMessage(String message) {
         final String s = message;
         runOnUiThread(new Runnable() {
@@ -399,11 +447,19 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
 
     }
 
+    /**
+     * 上传文件出错
+     */
     private void uploadFileError() {
         Toast.makeText(instance, "Upload File error!",
                 Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 上传文件成功
+     *
+     * @param data
+     */
     private void uploadFileSuccess(Intent data) {
         fileUri = data.getData();//得到uri，后面就是将uri转化成file的过程。
         String path = getPath(instance, fileUri);
@@ -416,6 +472,11 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         menu_service_binder.getService().Upload_File(user.getId(), path);
     }
 
+    /**
+     * 更新上传进度
+     *
+     * @param progress 进度
+     */
     private void updateUploadFileProgress(int progress) {
         final int p = progress;
         runOnUiThread(new Runnable() {
@@ -426,6 +487,11 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         });
     }
 
+    /**
+     * 更新下载进度
+     *
+     * @param progress 进度
+     */
     private void updateDownloadFileProgress(int progress) {
         final int p = progress;
         runOnUiThread(new Runnable() {
@@ -436,11 +502,22 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         });
     }
 
+    /**
+     * 加密文件转换为JSON
+     *
+     * @param encryptFile 加密文件
+     * @return Json
+     */
     private String encryptFileToJson(EncryptFile encryptFile) {
         Gson gson = new Gson();
         return gson.toJson(encryptFile);
     }
 
+    /**
+     * 加密文件
+     *
+     * @param json EncryptFile的json
+     */
     private void startEncrypt(String json) {
         final String s = json;
         runOnUiThread(new Runnable() {
@@ -460,12 +537,18 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
         });
     }
 
+    /**
+     * 检查解密文件是否存在
+     *
+     * @param encryptFile 加密文件
+     * @return 存在状态
+     */
     private boolean confirmDecryptFileExist(EncryptFile encryptFile) {
         PathAndKey pathAndKey = new PathAndKey();
         pathAndKey.setPath(PathAndKey.getPath() + encryptFile.getUserId() + "/");
         String fileName = encryptFile.getFileName();
         String[] s = fileName.split("\\.");
-        String fileRealName = s[0]+ BaseUrl.DOWNLOAD_FILE_TYPE;
+        String fileRealName = s[0] + BaseUrl.DOWNLOAD_FILE_TYPE;
         File file = new File(pathAndKey.getFileSavePath() + fileRealName);
         if (file.exists()) {
             return true;
@@ -526,7 +609,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
                 menuConnectError(event.getConnectErrorExc());
                 break;
             case ChangePoint.GET_MENU_FILE_LIST:
-                updateMenuFileList(event.getSouceServerFileList());
+                updateMenuFileList(event.getSourceServerFileList());
                 break;
             case ChangePoint.UPLOAD_FILE_PROGRESS:
                 updateUploadFileProgress(event.getUploadFileProgress());
@@ -535,7 +618,7 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
                 updateDownloadFileProgress(event.getDownloadFileProgress());
                 break;
             case ChangePoint.GET_MENU_FILE_TYPE:
-                updateMenuFileType(event.getSouceServerTypeList());
+                updateMenuFileType(event.getSourceServerTypeList());
                 break;
             case ChangePoint.SET_ENCRYPT_FILE:
                 startEncrypt(event.getEncryptFileJson());
@@ -601,7 +684,6 @@ public class UI_Menu extends AppCompatActivity implements UI_Menu_File_List.Menu
                     }
                 });
                 adb_menu_file_encrypt.show();
-
                 break;
         }
     }

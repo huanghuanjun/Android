@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Util.Encrypt.Base.RSA;
+package dhu.cst.zjm.encrypt.util.encrypt.base.rsa;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,11 +1,11 @@
-package dhu.cst.zjm.encrypt.WebApi;
+package dhu.cst.zjm.encrypt.web_api;
 
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 
 import java.util.Map;
 
-import dhu.cst.zjm.encrypt.Base.MapKey.MenuMap;
+import dhu.cst.zjm.encrypt.base_data.map_key.MenuMap;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.Field;
@@ -18,7 +18,7 @@ import retrofit.http.Path;
 import retrofit.http.Streaming;
 
 /**
- * Created by admin on 2016/11/5.
+ * Created by zjm on 2016/11/5.
  */
 
 public interface WebService {

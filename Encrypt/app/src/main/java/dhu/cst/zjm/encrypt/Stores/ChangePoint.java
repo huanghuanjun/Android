@@ -1,7 +1,7 @@
-package dhu.cst.zjm.encrypt.Stores;
+package dhu.cst.zjm.encrypt.stores;
 
 /**
- * Created by admin on 2016/11/7.
+ * Created by zjm on 2016/11/7.
  */
 
 public interface ChangePoint {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/acd20141125125251843"
+    android:background="@drawable/background_login"
     android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
     android:weightSum="10">
 
@@ -40,6 +40,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
+            android:labelFor="@+id/et_login_password"
             android:id="@+id/et_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

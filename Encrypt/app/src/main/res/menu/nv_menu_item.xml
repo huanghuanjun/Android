@@ -14,7 +14,7 @@
             <item
                 android:checkable="true"
                 android:title="Information"
-                android:icon="@drawable/ic_description_black_48dp"/>
+                android:icon="@drawable/ic_information_black_48dp"/>
             <item
                 android:title="Upload File"
                 android:icon="@drawable/ic_file_upload_black_48dp"

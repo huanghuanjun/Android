@@ -1,7 +1,7 @@
-package dhu.cst.zjm.encrypt.Models;
+package dhu.cst.zjm.encrypt.models;
 
 /**
- * Created by 10424 on 2017/1/10.
+ * Created by zjm on 2017/1/10.
  */
 
 public class EncryptFile {

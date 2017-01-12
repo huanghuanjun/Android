@@ -1,7 +1,7 @@
-package dhu.cst.zjm.encrypt.Base.MapKey;
+package dhu.cst.zjm.encrypt.base_data.map_key;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public interface LoginMap {

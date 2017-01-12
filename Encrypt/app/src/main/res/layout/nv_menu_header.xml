@@ -4,7 +4,7 @@
     android:layout_height="192dp"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/menu_nv_header_backgroud">
+    android:background="@drawable/background_menu_nv_header">
 
     <TextView
         android:id="@+id/tv_nv_menu_id"

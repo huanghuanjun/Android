@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Stores;
+package dhu.cst.zjm.encrypt.stores;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -6,15 +6,15 @@ import com.google.gson.reflect.TypeToken;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import dhu.cst.zjm.encrypt.Action.Action;
-import dhu.cst.zjm.encrypt.Action.Action_Login;
-import dhu.cst.zjm.encrypt.Action.Action_Menu;
-import dhu.cst.zjm.encrypt.Base.MapKey.LoginMap;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Models.User;
+import dhu.cst.zjm.encrypt.action.Action;
+import dhu.cst.zjm.encrypt.action.Action_Login;
+import dhu.cst.zjm.encrypt.action.Action_Menu;
+import dhu.cst.zjm.encrypt.base_data.map_key.LoginMap;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.models.User;
 
 /**
- * Created by admin on 2016/11/3.
+ * Created by zjm on 2016/11/3.
  */
 
 public class LoginStore extends Store {
@@ -70,11 +70,21 @@ public class LoginStore extends Store {
         }
     }
 
+    /**
+     * 获取注册成功得到的id
+     *
+     * @param action
+     */
     private void getRegisterID(Action action) {
         String id = (String) action.getData().get(Action_Login.REGISTER_SUCCESS_ID);
         Register_id = Integer.parseInt(id);
     }
 
+    /**
+     * 获取登录返回信息
+     *
+     * @param action
+     */
     private void getLoginInternetInf(Action action) {
         String s = (String) action.getData().get(Action_Login.LOGIN_INTERNET_RESP_INF_JSON);
         if (s.equals(LoginMap.LOGIN_STATE_NON_EXISTENT)) {

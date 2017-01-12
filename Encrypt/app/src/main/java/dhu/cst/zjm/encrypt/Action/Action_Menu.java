@@ -1,7 +1,7 @@
-package dhu.cst.zjm.encrypt.Action;
+package dhu.cst.zjm.encrypt.action;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public interface Action_Menu {
@@ -19,9 +19,9 @@ public interface Action_Menu {
     String DECRYPT_FILE_INF_JSON = "decrypt_file_inf_json";
     String GET_MENU_FILE_LIST_SUCCESS = "get_menu_file_list_success";
     String GET_MENU_FILE_LIST_SUCCESS_JSON = "get_menu_file_list_success_json";
-    String UPLOAD_FILE_PROGRESS = "upload_file_proress";
+    String UPLOAD_FILE_PROGRESS = "upload_file_progress";
     String UPLOAD_FILE_PROGRESS_INT = "upload_file_progress_int";
-    String DOWNLOAD_FILE_PROGRESS = "download_file_proress";
+    String DOWNLOAD_FILE_PROGRESS = "download_file_progress";
     String DOWNLOAD_FILE_PROGRESS_INT = "download_file_progress_int";
     String GET_MENU_FILE_TYPE_SUCCESS = "get_menu_file_type_success";
     String GET_MENU_FILE_TYPE_SUCCESS_JSON = "get_menu_file_type_success_json";

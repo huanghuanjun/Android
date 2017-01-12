@@ -1,10 +1,10 @@
-package dhu.cst.zjm.encrypt.Util.AppBarLayout;
+package dhu.cst.zjm.encrypt.util.appbarlayout;
 
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Created by admin on 2017/1/11.
+ * Created by zjm on 2017/1/11.
  */
 
 public class DesignViewUtils {

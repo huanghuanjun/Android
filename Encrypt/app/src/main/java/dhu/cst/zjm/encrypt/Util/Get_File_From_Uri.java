@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Util;
+package dhu.cst.zjm.encrypt.util;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public class Get_File_From_Uri {

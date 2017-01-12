@@ -1,27 +1,21 @@
-package dhu.cst.zjm.encrypt.Adapter;
+package dhu.cst.zjm.encrypt.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dhu.cst.zjm.encrypt.Models.ServerFile;
+import dhu.cst.zjm.encrypt.models.ServerFile;
 import dhu.cst.zjm.encrypt.R;
 
 /**
- * Created by admin on 2017/1/3.
+ * Created by zjm on 2017/1/3.
  */
 
 public class Menu_File_Adapter extends RecyclerView.Adapter<Menu_File_Adapter.MyViewHolder> {
@@ -40,10 +34,9 @@ public class Menu_File_Adapter extends RecyclerView.Adapter<Menu_File_Adapter.My
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v=
-                mInflater.inflate(R.layout.rv_menu_file_list_item, parent,
-                        false);
-        MyViewHolder myViewHolder=new MyViewHolder(v);
+        View v = mInflater.inflate(R.layout.rv_menu_file_list_item, parent,
+                false);
+        MyViewHolder myViewHolder = new MyViewHolder(v);
         return myViewHolder;
     }
 
@@ -86,7 +79,7 @@ public class Menu_File_Adapter extends RecyclerView.Adapter<Menu_File_Adapter.My
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int postion);
+        void onItemClick(int position);
     }
 
 }

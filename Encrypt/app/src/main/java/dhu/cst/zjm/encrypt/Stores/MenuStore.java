@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Stores;
+package dhu.cst.zjm.encrypt.stores;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,31 +11,33 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import dhu.cst.zjm.encrypt.Action.Action;
-import dhu.cst.zjm.encrypt.Action.Action_Menu;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Models.EncryptFile;
-import dhu.cst.zjm.encrypt.Models.EncryptType;
-import dhu.cst.zjm.encrypt.Models.ServerFile;
-import dhu.cst.zjm.encrypt.Util.Encrypt.Base.BaseDecrypt;
+import dhu.cst.zjm.encrypt.action.Action;
+import dhu.cst.zjm.encrypt.action.Action_Menu;
+import dhu.cst.zjm.encrypt.base_data.map_key.EncryptMap;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.models.EncryptFile;
+import dhu.cst.zjm.encrypt.models.EncryptType;
+import dhu.cst.zjm.encrypt.models.ServerFile;
+import dhu.cst.zjm.encrypt.util.encrypt.base.BaseDecrypt;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public class MenuStore extends Store {
     private static MenuStore instance;
     private boolean isMenuTryConnect;
-    private int conncetCloseCode;
+    private int connectCloseCode;
     private String connectCloseReason;
     private Exception connectErrorExc;
-    private List<ServerFile> souceServerFileList = new ArrayList<ServerFile>();
-    private List<EncryptType> souceServerTypeList = new ArrayList<EncryptType>();
+    private List<ServerFile> sourceServerFileList = new ArrayList<ServerFile>();
+    private List<EncryptType> sourceServerTypeList = new ArrayList<EncryptType>();
     private int uploadFileProgress;
     private int downloadFileProgress;
     private Queue<String> connectMessageInf = new LinkedList<String>();
     private String fileJson;
     private int userId;
+    private int typeId;
 
     protected MenuStore(Dispatcher dispatcher) {
         super(dispatcher);
@@ -54,11 +56,11 @@ public class MenuStore extends Store {
     public void onAction(Action action) {
         switch (action.getType()) {
             case Action_Menu.GET_MENU_FILE_LIST_SUCCESS:
-                getSouceServerFileList(action);
+                getSourceServerFileList(action);
                 emitStoreChange(ChangePoint.GET_MENU_FILE_LIST);
                 break;
             case Action_Menu.GET_MENU_FILE_TYPE_SUCCESS:
-                getSouceServerFileType(action);
+                getSourceServerFileType(action);
                 emitStoreChange(ChangePoint.GET_MENU_FILE_TYPE);
                 break;
             case Action_Menu.SET_ENCRYPT_FILE_SUCCESS:
@@ -104,58 +106,117 @@ public class MenuStore extends Store {
         }
     }
 
-    private void getSouceServerFileList(Action action) {
+    /**
+     * 获取用户储存上传的文件列表
+     *
+     * @param action
+     */
+    private void getSourceServerFileList(Action action) {
         String json = (String) action.getData().get(Action_Menu.GET_MENU_FILE_LIST_SUCCESS_JSON);
         Gson gson = new Gson();
-        souceServerFileList = gson.fromJson(json, new TypeToken<List<ServerFile>>() {
+        sourceServerFileList = gson.fromJson(json, new TypeToken<List<ServerFile>>() {
         }.getType());
     }
 
-    private void getFileJson(Action action) {
-        fileJson = (String) action.getData().get(Action_Menu.SET_ENCRYPT_FILE_SUCCESS_JSON);
-    }
-
-    private void getSouceServerFileType(Action action) {
+    /**
+     * 获取文件加密方式列表
+     *
+     * @param action
+     */
+    private void getSourceServerFileType(Action action) {
         String json = (String) action.getData().get(Action_Menu.GET_MENU_FILE_TYPE_SUCCESS_JSON);
         Gson gson = new Gson();
-        souceServerTypeList = gson.fromJson(json, new TypeToken<List<EncryptType>>() {
+        sourceServerTypeList = gson.fromJson(json, new TypeToken<List<EncryptType>>() {
         }.getType());
     }
 
+
+    /**
+     * 获取上传文件进度
+     *
+     * @param action
+     */
     private void getUploadFileProgress(Action action) {
         uploadFileProgress = (int) action.getData().get(Action_Menu.UPLOAD_FILE_PROGRESS_INT);
     }
 
+    /**
+     * 获取下载文件进度
+     *
+     * @param action
+     */
     private void getDownloadFileProgress(Action action) {
         downloadFileProgress = (int) action.getData().get(Action_Menu.DOWNLOAD_FILE_PROGRESS_INT);
     }
 
-    private void getConnectCloseDate(Action action) {
-        conncetCloseCode = (Integer) action.getData().get(Action_Menu.WEB_SOCKET_MENU_CLOSE_CODE);
-        connectCloseReason = (String) action.getData().get(Action_Menu.WEB_SOCKET_MENU_CLOSE_REASON);
+    /**
+     * 获取加密文件的json
+     *
+     * @param action
+     */
+    private void getFileJson(Action action) {
+        fileJson = (String) action.getData().get(Action_Menu.SET_ENCRYPT_FILE_SUCCESS_JSON);
     }
 
+
+    /**
+     * 加密文件
+     *
+     * @param action
+     * @throws Exception
+     */
     private void decryptFile(Action action) throws Exception {
         String json = (String) action.getData().get(Action_Menu.DECRYPT_FILE_INF_JSON);
         String fileName = getDecryptFileName(json);
-        BaseDecrypt baseDecrypt=new BaseDecrypt(fileName);
-        baseDecrypt.startDecrypt(userId);
+        switch (typeId) {
+            case EncryptMap.BASE:
+                BaseDecrypt baseDecrypt = new BaseDecrypt(fileName);
+                baseDecrypt.startDecrypt(userId);
+                break;
+        }
     }
 
+    /**
+     * 获取加密文件信息
+     *
+     * @param json EncryptFile的json
+     * @return 文件名称
+     */
     private String getDecryptFileName(String json) {
         Gson gson = new Gson();
         EncryptFile get = gson.fromJson(json, new TypeToken<EncryptFile>() {
         }.getType());
         String decryptFileName = get.getFileName();
         userId = get.getUserId();
+        typeId = get.getTypeId();
         return decryptFileName;
     }
 
+    /**
+     * 获取webSocket关闭数据
+     *
+     * @param action
+     */
+    private void getConnectCloseDate(Action action) {
+        connectCloseCode = (Integer) action.getData().get(Action_Menu.WEB_SOCKET_MENU_CLOSE_CODE);
+        connectCloseReason = (String) action.getData().get(Action_Menu.WEB_SOCKET_MENU_CLOSE_REASON);
+    }
 
+
+    /**
+     * 获取webSocket出错原因
+     *
+     * @param action
+     */
     private void getConnectErrorException(Action action) {
         connectErrorExc = (Exception) action.getData().get(Action_Menu.WEB_SOCKET_MENU_ERROR_EXC);
     }
 
+    /**
+     * 获取webSocket服务器消息
+     *
+     * @param action
+     */
     private void getConnectMessageInf(Action action) {
         connectMessageInf.add((String) action.getData().get(Action_Menu.WEB_SOCKET_MENU_MESSAGE_INF));
     }
@@ -182,7 +243,7 @@ public class MenuStore extends Store {
         }
 
         public String getConnectCloseReason() {
-            return conncetCloseCode + " : " + connectCloseReason;
+            return connectCloseCode + " : " + connectCloseReason;
         }
 
         public Exception getConnectErrorExc() {
@@ -193,12 +254,12 @@ public class MenuStore extends Store {
             return connectMessageInf.remove();
         }
 
-        public List<ServerFile> getSouceServerFileList() {
-            return souceServerFileList;
+        public List<ServerFile> getSourceServerFileList() {
+            return sourceServerFileList;
         }
 
-        public List<EncryptType> getSouceServerTypeList() {
-            return souceServerTypeList;
+        public List<EncryptType> getSourceServerTypeList() {
+            return sourceServerTypeList;
         }
 
         public int getUploadFileProgress() {

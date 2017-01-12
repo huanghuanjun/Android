@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Adapter.WebAdapter;
+package dhu.cst.zjm.encrypt.adapter.web_adapter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,28 +11,30 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Base.MapKey.LoginMap;
-import dhu.cst.zjm.encrypt.WebApi.BaseUrl;
-import dhu.cst.zjm.encrypt.WebApi.WebService;
+import dhu.cst.zjm.encrypt.action.ActionsCreator;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.base_data.map_key.LoginMap;
+import dhu.cst.zjm.encrypt.base_data.BaseUrl;
+import dhu.cst.zjm.encrypt.web_api.WebService;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by admin on 2016/11/6.
+ * Created by zjm on 2016/11/6.
  */
 
 public class LoginAdapter {
     private static LoginAdapter instance;
     final Dispatcher dispatcher;
     private ActionsCreator actionsCreator;
+    private Retrofit retrofit;
 
     public LoginAdapter(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
         actionsCreator = ActionsCreator.get(dispatcher);
+        init();
     }
 
     public static LoginAdapter get(Dispatcher dispatcher) {
@@ -42,13 +44,21 @@ public class LoginAdapter {
         return instance;
     }
 
-    public void Login_Internet(String json) {
+    private void init() {
         OkHttpClient client = new OkHttpClient();
         client.setConnectTimeout(5, TimeUnit.SECONDS);
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrl.BASEHTTP + BaseUrl.BASEIP + BaseUrl.BASEPORT)
                 .client(client)
                 .build();
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param json Map<String, String>的json
+     */
+    public void Login_Internet(String json) {
         WebService webService = retrofit.create(WebService.class);
         RequestBody requestBody = RequestBody.create(MediaType.parse(BaseUrl.CONTENT_TYPE_JSON), json);
         Call<ResponseBody> responseBodyCall = webService.Login_Internet(BaseUrl.LOGIN_INTERNET, requestBody);
@@ -58,7 +68,6 @@ public class LoginAdapter {
                 try {
                     if (response.body() != null) {
                         String resp = response.body().string();
-
                         responseLogin(resp);
                     }
                 } catch (IOException e) {
@@ -73,17 +82,20 @@ public class LoginAdapter {
         });
     }
 
+
+    /**
+     * 返回登录情况
+     *
+     * @param resp 登录情况信息
+     */
     private void responseLogin(String resp) {
-            actionsCreator.Login_Internet_Resp(resp);
+        actionsCreator.Login_Internet_Resp(resp);
     }
 
+    /**
+     * 注册前进行网络连接测试
+     */
     public void Register_Try_Connect() {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(5, TimeUnit.SECONDS);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BaseUrl.BASEHTTP + BaseUrl.BASEIP + BaseUrl.BASEPORT)
-                .client(client)
-                .build();
         WebService webService = retrofit.create(WebService.class);
         Call<ResponseBody> responseBodyCall = webService.Register_Try_Connect(BaseUrl.REGISTER_TRY_Connect);
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
@@ -110,13 +122,12 @@ public class LoginAdapter {
         });
     }
 
+    /**
+     * 注册用户
+     *
+     * @param json Map<String, String>的json
+     */
     public void Register_Try(String json) {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(5, TimeUnit.SECONDS);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BaseUrl.BASEHTTP + BaseUrl.BASEIP + BaseUrl.BASEPORT)
-                .client(client)
-                .build();
         WebService webService = retrofit.create(WebService.class);
         RequestBody requestBody = RequestBody.create(MediaType.parse(BaseUrl.CONTENT_TYPE_JSON), json);
         Call<ResponseBody> responseBodyCall = webService.Register_Try(BaseUrl.REGISTER_TRY, requestBody);
@@ -140,6 +151,11 @@ public class LoginAdapter {
         });
     }
 
+    /**
+     * 读取json并返回注册状态
+     *
+     * @param resp Map<String, String>的json
+     */
     private void responseRegister(String resp) {
         Gson gson = new Gson();
         Map<String, String> register = gson.fromJson(resp, new TypeToken<Map<String, String>>() {

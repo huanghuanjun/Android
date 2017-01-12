@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Views;
+package dhu.cst.zjm.encrypt.views;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,15 +12,15 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Models.User;
+import dhu.cst.zjm.encrypt.action.ActionsCreator;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.models.User;
 import dhu.cst.zjm.encrypt.R;
-import dhu.cst.zjm.encrypt.Stores.ChangePoint;
-import dhu.cst.zjm.encrypt.Stores.LoginStore;
+import dhu.cst.zjm.encrypt.stores.ChangePoint;
+import dhu.cst.zjm.encrypt.stores.LoginStore;
 
 /**
- * Created by admin on 2016/11/6.
+ * Created by zjm on 2016/11/6.
  */
 
 public class UI_Login_Register extends Activity {
@@ -28,9 +28,6 @@ public class UI_Login_Register extends Activity {
     private Dispatcher dispatcher;
     private LoginStore loginStore;
     private ActionsCreator actionsCreator;
-
-
-    //Ui相关
     private ViewGroup ll_ui_register;
     private EditText et_register_name, et_register_password, et_register_confirm_password;
     private Button b_register_ok;
@@ -80,6 +77,9 @@ public class UI_Login_Register extends Activity {
         });
     }
 
+    /**
+     * 注册
+     */
     private void Register() {
         String password = getPassword();
         if (!ConfirmPassword(password)) {
@@ -92,6 +92,12 @@ public class UI_Login_Register extends Activity {
     }
 
 
+    /**
+     * 检查两次密码正确性
+     *
+     * @param password 密码
+     * @return 检查状态
+     */
     private boolean ConfirmPassword(String password) {
         String confirm = getConfirmPassword();
         if (!confirm.equals(password)) {
@@ -101,19 +107,47 @@ public class UI_Login_Register extends Activity {
         }
     }
 
+    /**
+     * 获取密码
+     *
+     * @return 用户密码
+     */
     private String getPassword() {
         return et_register_password.getText().toString();
     }
 
+    /**
+     * 获取确认密码
+     *
+     * @return 用户确认密码
+     */
+    private String getConfirmPassword() {
+        return et_register_confirm_password.getText().toString();
+    }
+
+    /**
+     * 获取用户名
+     *
+     * @return 用户名
+     */
     private String getName() {
         return et_register_name.getText().toString();
     }
 
+    /**
+     * 两次密码不一致
+     */
     private void updateConfirmError() {
         Toast.makeText(getApplicationContext(), "Confirm error!",
                 Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 更新注册信息
+     *
+     * @param state 注册状态
+     * @param id    注册id
+     */
     private void updateIsRegister(boolean state, int id) {
         String message = "";
         Snackbar snackbar = Snackbar.make(ll_ui_register, message, Snackbar.LENGTH_LONG);
@@ -132,10 +166,6 @@ public class UI_Login_Register extends Activity {
         snackbar.show();
     }
 
-
-    private String getConfirmPassword() {
-        return et_register_confirm_password.getText().toString();
-    }
 
     @Subscribe
     public void onRegisterStoreChange(LoginStore.LoginStoreChangeEvent event) {

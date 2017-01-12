@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Util.Encrypt.Base.Md5;
+package dhu.cst.zjm.encrypt.util.encrypt.base.md5;
 
 import java.io.File;
 import java.io.FileInputStream;

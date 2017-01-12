@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:fitsSystemWindows="true"
-                    android:src="@drawable/menu_background_shanghai" />
+                    android:src="@drawable/background_menu_toolbar" />
 
 
                 <android.support.v7.widget.Toolbar

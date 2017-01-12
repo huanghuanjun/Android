@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Views;
+package dhu.cst.zjm.encrypt.views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,15 +18,15 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.HashMap;
 import java.util.Map;
 
-import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Base.MapKey.LoginMap;
+import dhu.cst.zjm.encrypt.action.ActionsCreator;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.base_data.map_key.LoginMap;
 import dhu.cst.zjm.encrypt.R;
-import dhu.cst.zjm.encrypt.Stores.ChangePoint;
-import dhu.cst.zjm.encrypt.Stores.LoginStore;
+import dhu.cst.zjm.encrypt.stores.ChangePoint;
+import dhu.cst.zjm.encrypt.stores.LoginStore;
 
 /**
- * Created by admin on 2016/11/3.
+ * Created by zjm on 2016/11/3.
  */
 
 public class UI_Login extends Activity {
@@ -35,8 +35,6 @@ public class UI_Login extends Activity {
     private LoginStore loginStore;
     private ActionsCreator actionsCreator;
     private UI_Login instance;
-
-    //Ui相关
     private ViewGroup ll_ui_login;
     private Button b_register, b_login_internet;
     private EditText et_password, et_id;
@@ -93,6 +91,9 @@ public class UI_Login extends Activity {
 
     }
 
+    /**
+     * 登录
+     */
     private void InternetLogin() {
         int id = getET_Id();
         String password = getET_Password();
@@ -103,6 +104,14 @@ public class UI_Login extends Activity {
         }
     }
 
+    /**
+     * 检查输入
+     *
+     * @param id 用户id
+     * @param password 用户密码
+     *
+     * @return 检查状态
+     */
     private boolean ConfirmUserInf(int id, String password) {
         if (id == -1 || password.equals("")) {
             return false;
@@ -111,11 +120,22 @@ public class UI_Login extends Activity {
         }
     }
 
+    /**
+     * 输入错误
+     */
     private void updateUserInfError() {
         Toast.makeText(instance, "ID or Password can not be empty!",
                 Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 转换登录信息为json
+     *
+     * @param id 用户id
+     * @param password 用户密码
+     *
+     * @return Map<String, String>的json
+     */
     private String LoginToJson(int id, String password) {
         Map<String, String> login = new HashMap<String, String>();
         login.put(LoginMap.LOGIN_ID_KEY, id + "");
@@ -125,14 +145,27 @@ public class UI_Login extends Activity {
         return json;
     }
 
+    /**
+     * 注册连接测试
+     */
     private void Register() {
         actionsCreator.Register_Try_Connect();
     }
 
+    /**
+     * 获取密码
+     *
+     * @return 用户密码
+     */
     private String getET_Password() {
         return et_password.getText() + "";
     }
 
+    /**
+     * 获取id
+     *
+     * @return 用户id
+     */
     private int getET_Id() {
         String id = et_id.getText() + "";
         try {
@@ -143,6 +176,11 @@ public class UI_Login extends Activity {
         }
     }
 
+    /**
+     * 响应是否登录
+     *
+     * @param event
+     */
     private void updateIsInternetState(LoginStore.LoginStoreChangeEvent event) {
         String message;
         boolean state = event.getIsLoginInternet();
@@ -157,6 +195,11 @@ public class UI_Login extends Activity {
 
     }
 
+    /**
+     * 响应是否注册连接成功
+     *
+     * @param state 连接状态
+     */
     private void updateIsRegisterTryConnect(boolean state) {
         String message = "";
         Snackbar snackbar = Snackbar.make(ll_ui_login, message, Snackbar.LENGTH_LONG);

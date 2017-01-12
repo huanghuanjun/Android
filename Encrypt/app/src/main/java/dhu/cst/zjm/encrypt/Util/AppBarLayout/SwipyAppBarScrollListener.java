@@ -1,14 +1,12 @@
-package dhu.cst.zjm.encrypt.Util.AppBarLayout;
+package dhu.cst.zjm.encrypt.util.appbarlayout;
 
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import dhu.cst.zjm.encrypt.Util.AppBarLayout.DesignViewUtils;
-
 /**
- * Created by admin on 2017/1/11.
+ * Created by zjm on 2017/1/11.
  */
 
 public class SwipyAppBarScrollListener extends RecyclerView.OnScrollListener implements AppBarLayout.OnOffsetChangedListener {

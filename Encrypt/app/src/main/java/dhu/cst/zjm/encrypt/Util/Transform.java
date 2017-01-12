@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Util;
+package dhu.cst.zjm.encrypt.util;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,10 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * 文件转换工具类
- * 
- * @author ZJM
- *
+ * Created by zjm on 2016/12/30.
  */
 public class Transform {
 

@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Views.Fragment;
+package dhu.cst.zjm.encrypt.views.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -16,15 +16,15 @@ import com.daimajia.swipe.util.Attributes;
 import java.util.ArrayList;
 import java.util.List;
 
-import dhu.cst.zjm.encrypt.Adapter.Menu_File_Type_Adapter;
-import dhu.cst.zjm.encrypt.Models.EncryptFile;
-import dhu.cst.zjm.encrypt.Models.EncryptType;
-import dhu.cst.zjm.encrypt.Models.ServerFile;
-import dhu.cst.zjm.encrypt.Models.User;
+import dhu.cst.zjm.encrypt.adapter.Menu_File_Type_Adapter;
+import dhu.cst.zjm.encrypt.models.EncryptFile;
+import dhu.cst.zjm.encrypt.models.EncryptType;
+import dhu.cst.zjm.encrypt.models.ServerFile;
+import dhu.cst.zjm.encrypt.models.User;
 import dhu.cst.zjm.encrypt.R;
 
 /**
- * Created by admin on 2017/1/8.
+ * Created by zjm on 2017/1/8.
  */
 
 public class UI_Menu_File_Type extends Fragment {
@@ -38,6 +38,8 @@ public class UI_Menu_File_Type extends Fragment {
     private ImageView iv_menu_toolbar;
     private ServerFile serverFile;
     private TextView tv_menu_toolbar;
+
+    public UI_Menu_File_Type(){}
 
     public UI_Menu_File_Type(ServerFile serverFile) {
         this.serverFile = serverFile;
@@ -61,14 +63,10 @@ public class UI_Menu_File_Type extends Fragment {
     }
 
     private void setupView(View view) {
-
-        rcv_menu_file_type = (RecyclerView) view.findViewById(R.id.rcv_menu_file_type);
-
         sourceEncryptTypeList = new ArrayList<EncryptType>();
         menu_file_type_interface.getSourceType();
 
         menu_file_type_adapter = new Menu_File_Type_Adapter(getActivity(), sourceEncryptTypeList);
-        rcv_menu_file_type.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         menu_file_type_adapter.setMode(Attributes.Mode.Single);
         menu_file_type_adapter.setDownloadClickListener(new Menu_File_Type_Adapter.OnItemClickListener() {
             @Override
@@ -78,7 +76,6 @@ public class UI_Menu_File_Type extends Fragment {
                 menu_file_type_interface.downloadClick(encryptFile);
             }
         });
-
         menu_file_type_adapter.setRightClickListener(new Menu_File_Type_Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -103,6 +100,8 @@ public class UI_Menu_File_Type extends Fragment {
             }
         });
 
+        rcv_menu_file_type = (RecyclerView) view.findViewById(R.id.rcv_menu_file_type);
+        rcv_menu_file_type.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         rcv_menu_file_type.setAdapter(menu_file_type_adapter);
 
 
@@ -120,7 +119,7 @@ public class UI_Menu_File_Type extends Fragment {
         tv_menu_toolbar.setText(serverFile.getSize() + "\n \n" + serverFile.getUploadTime());
     }
 
-    public void updateSouceMenuFileType(List<EncryptType> list) {
+    public void updateSourceMenuFileType(List<EncryptType> list) {
         sourceEncryptTypeList.clear();
         for (EncryptType et : list) {
             sourceEncryptTypeList.add(et);

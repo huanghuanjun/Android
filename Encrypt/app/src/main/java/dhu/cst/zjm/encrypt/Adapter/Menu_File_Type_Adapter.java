@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Adapter;
+package dhu.cst.zjm.encrypt.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -15,18 +15,17 @@ import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import dhu.cst.zjm.encrypt.Models.EncryptType;
+import dhu.cst.zjm.encrypt.models.EncryptType;
 import dhu.cst.zjm.encrypt.R;
 
 /**
- * Created by admin on 2017/1/8.
+ * Created by zjm on 2017/1/8.
  */
 
 public class Menu_File_Type_Adapter extends RecyclerSwipeAdapter<Menu_File_Type_Adapter.MyViewHolder> {
 
     private List<EncryptType> mData;
     private LayoutInflater mInflater;
-    private List<Integer> mHeights;
     private OnItemClickListener downloadListener;
     private OnItemClickListener rightListener;
     private OnItemClickListener listener;
@@ -58,27 +57,24 @@ public class Menu_File_Type_Adapter extends RecyclerSwipeAdapter<Menu_File_Type_
         View v = mInflater.inflate(
                 R.layout.rv_menu_file_type_item, parent, false);
         MyViewHolder holder = new MyViewHolder(v);
-
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
         setupMainView(holder, position);
         setupSwipeView(holder, position);
-
     }
 
     private void setupMainView(final MyViewHolder holder, final int position) {
         EncryptType encryptType = mData.get(position);
-        mHeights = new ArrayList<Integer>();
-
         holder.tv_rv_menu_file_type_name.setText(encryptType.getName());
     }
 
     private void setupSwipeView(final MyViewHolder holder, final int position) {
+        //设置刷卡布局显示模式
         holder.sl_menu_file_type_item.setShowMode(SwipeLayout.ShowMode.PullOut);
+
         holder.b_menu_file_type_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +126,7 @@ public class Menu_File_Type_Adapter extends RecyclerSwipeAdapter<Menu_File_Type_
 
         TextView tv_rv_menu_file_type_name;
         SwipeLayout sl_menu_file_type_item;
-        Button b_menu_file_type_encrypt,b_menu_file_type_download, b_menu_file_type_decrypt;
+        Button b_menu_file_type_encrypt, b_menu_file_type_download, b_menu_file_type_decrypt;
         ImageView iv_menu_file_type_details;
 
         public MyViewHolder(View view) {

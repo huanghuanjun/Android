@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Util.Encrypt.Base.DES;
+package dhu.cst.zjm.encrypt.util.encrypt.base.des;
 
 import java.security.SecureRandom;
 

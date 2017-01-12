@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Adapter;
+package dhu.cst.zjm.encrypt.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import dhu.cst.zjm.encrypt.Models.EncryptInf;
+import dhu.cst.zjm.encrypt.models.EncryptInf;
 import dhu.cst.zjm.encrypt.R;
 
 
 /**
- * Created by admin on 2017/1/7.
+ * Created by zjm on 2017/1/7.
  */
 
 public class Menu_File_Encrypt_Adapter extends BaseAdapter {
@@ -46,9 +46,9 @@ public class Menu_File_Encrypt_Adapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         EncryptInf encryptInf = list.get(position);
-        if (viewHolder == null) {
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.lv_menu_file_encrypt_item, null);
             viewHolder.iv_menu_file_encrypt_state = (ImageView) convertView.findViewById(R.id.iv_menu_file_encrypt_state);
@@ -57,9 +57,10 @@ public class Menu_File_Encrypt_Adapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        //读取加密状态 成功 进行 失败
         switch (encryptInf.getState()) {
             case 1:
-                viewHolder.iv_menu_file_encrypt_state.setImageResource(R.drawable.ic_trending_neutral_black_48dp);
+                viewHolder.iv_menu_file_encrypt_state.setImageResource(R.drawable.ic_run_black_48dp);
                 break;
             case 2:
                 viewHolder.iv_menu_file_encrypt_state.setImageResource(R.drawable.ic_done_black_48dp);

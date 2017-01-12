@@ -1,35 +1,22 @@
-package dhu.cst.zjm.encrypt.Base;
+package dhu.cst.zjm.encrypt.base_data;
 
 import java.io.File;
 
 /**
- * Created by 10424 on 2017/1/11.
+ * Created by zjm on 2017/1/11.
  */
 
 public class PathAndKey {
 
-    private static String Path = "/storage/sdcard/encrypt/";
+    private static String Path = "/storage/sdcard/";
     private static String appPath="/encrypt/";
 
-    // RSA密钥保存路径
-    private String keyPath;
 
-    // 文件原目录及名称
     private String filePath;
 
     private String fileSavePath;
 
-    // 文件加密后储存目录及名称
-    private String encryptPath;
-
-    // 文件解密后储存目录及名称
     private String decryptPath;
-
-    // 文件压缩后储存目录及名称
-    private String sendPath;
-
-    // 文件解压后储存目录
-    private String getPath;
 
     private String fileTempPath;
 

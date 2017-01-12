@@ -12,15 +12,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.UI_Login">
+        <activity android:name=".views.UI_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.UI_Login_Register"></activity>
-        <activity android:name=".Views.UI_Menu"></activity>
-        <service android:name=".Service.Menu_Service"></service>
+        <activity android:name=".views.UI_Login_Register"/>
+        <activity android:name=".views.UI_Menu"/>
+        <service android:name=".service.Menu_Service"/>
 
     </application>
 

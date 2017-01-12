@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Views.Fragment;
+package dhu.cst.zjm.encrypt.views.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -16,28 +16,34 @@ import com.yalantis.phoenix.PullToRefreshView;
 import java.util.ArrayList;
 import java.util.List;
 
-import dhu.cst.zjm.encrypt.Adapter.Menu_File_Adapter;
-import dhu.cst.zjm.encrypt.Models.ServerFile;
-import dhu.cst.zjm.encrypt.Models.User;
+import dhu.cst.zjm.encrypt.adapter.Menu_File_Adapter;
+import dhu.cst.zjm.encrypt.models.ServerFile;
+import dhu.cst.zjm.encrypt.models.User;
 import dhu.cst.zjm.encrypt.R;
-import dhu.cst.zjm.encrypt.Util.AppBarLayout.SwipyAppBarScrollListener;
+import dhu.cst.zjm.encrypt.util.appbarlayout.SwipyAppBarScrollListener;
 
 /**
- * Created by admin on 2017/1/3.
+ * Created by zjm on 2017/1/3.
  */
 
 public class UI_Menu_File_List extends Fragment {
 
+
+    private List<ServerFile> sourceServerFileList;
+    private User user;
+    private Menu_File_Adapter menu_file_adapter;
+    private Menu_File_List_Interface menu_file_list_interface;
     private View view;
     private RecyclerView rcv_menu_file_list;
-    private List<ServerFile> souceServerFileList;
-    private Menu_File_Adapter menu_file_adapter;
-    private PullToRefreshView ptrv_menu_file_list;
-    private Menu_File_List_Interface menu_file_list_interface;
     private ImageView iv_menu_toolbar;
+    private PullToRefreshView ptrv_menu_file_list;
     private AppBarLayout abl_ui_menu;
     private CollapsingToolbarLayout ctl_menu;
-    private User user;
+
+
+    public UI_Menu_File_List(){
+
+    }
 
     public UI_Menu_File_List(User user) {
         this.user = user;
@@ -61,8 +67,6 @@ public class UI_Menu_File_List extends Fragment {
     }
 
     private void setupView(View view) {
-
-
         ptrv_menu_file_list = (PullToRefreshView) view.findViewById(R.id.ptrv_menu_file_list);
         ptrv_menu_file_list.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
@@ -77,19 +81,18 @@ public class UI_Menu_File_List extends Fragment {
             }
         });
 
+        sourceServerFileList = new ArrayList<ServerFile>();
+        menu_file_list_interface.getSourceList();
 
         rcv_menu_file_list = (RecyclerView) view.findViewById(R.id.rcv_menu_file_list);
-        souceServerFileList = new ArrayList<ServerFile>();
-        menu_file_list_interface.getSourceList();
         rcv_menu_file_list.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        menu_file_adapter = new Menu_File_Adapter(getActivity(), souceServerFileList);
+        menu_file_adapter = new Menu_File_Adapter(getActivity(), sourceServerFileList);
         menu_file_adapter.setOnItemClickListener(new Menu_File_Adapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int postion) {
-                menu_file_list_interface.fileListItemClick(souceServerFileList.get(postion));
+            public void onItemClick(int position) {
+                menu_file_list_interface.fileListItemClick(sourceServerFileList.get(position));
             }
         });
-
         rcv_menu_file_list.setAdapter(menu_file_adapter);
     }
 
@@ -112,10 +115,10 @@ public class UI_Menu_File_List extends Fragment {
         void fileListItemClick(ServerFile serverFile);
     }
 
-    public void updateSouceMenuFileList(List<ServerFile> list) {
-        souceServerFileList.clear();
+    public void updateSourceMenuFileList(List<ServerFile> list) {
+        sourceServerFileList.clear();
         for (ServerFile sf : list) {
-            souceServerFileList.add(sf);
+            sourceServerFileList.add(sf);
         }
         menu_file_adapter.notifyDataSetChanged();
     }

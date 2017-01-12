@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Util;
+package dhu.cst.zjm.encrypt.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -14,10 +14,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- * 压缩工具类
- * 
- * @author ZJM
- *
+ * Created by zjm on 2016/12/30.
  */
 public class ZipUtil {
 
@@ -33,7 +30,7 @@ public class ZipUtil {
 	 * @throws Exception
 	 */
 	public static void ZipEncrypt(String encryptPath, String zipPath, String zipName) throws Exception {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");// 设置日期格式
+		DateFormat df = DateFormat.getDateInstance();// 设置日期格式
 		System.out.println("---------------压缩文件------------------");
 		System.out.println(df.format(new Date()));
 		File zipFile = new File(encryptPath);
@@ -73,7 +70,7 @@ public class ZipUtil {
 	 * @throws Exception
 	 */
 	public static void ZipDecrypt(String zipPath, String zipName, String outPath) throws Exception {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS");// 设置日期格式
+		DateFormat df = DateFormat.getDateInstance();// 设置日期格式
 		System.out.println("---------------解压文件------------------");
 		System.out.println(df.format(new Date()));
 		File sendFile = new File(zipPath + zipName);

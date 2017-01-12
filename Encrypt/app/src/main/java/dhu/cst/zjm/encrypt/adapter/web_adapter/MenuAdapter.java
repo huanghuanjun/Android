@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Adapter.WebAdapter;
+package dhu.cst.zjm.encrypt.adapter.web_adapter;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.ResponseBody;
@@ -6,29 +6,31 @@ import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Base.MapKey.MenuMap;
-import dhu.cst.zjm.encrypt.WebApi.BaseUrl;
-import dhu.cst.zjm.encrypt.WebApi.WebService;
+import dhu.cst.zjm.encrypt.action.ActionsCreator;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.base_data.map_key.MenuMap;
+import dhu.cst.zjm.encrypt.base_data.BaseUrl;
+import dhu.cst.zjm.encrypt.web_api.WebService;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public class MenuAdapter {
     private static MenuAdapter instance;
     final Dispatcher dispatcher;
     private ActionsCreator actionsCreator;
+    private Retrofit retrofit;
 
 
     public MenuAdapter(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
         actionsCreator = ActionsCreator.get(dispatcher);
+        init();
     }
 
     public static MenuAdapter get(Dispatcher dispatcher) {
@@ -38,14 +40,22 @@ public class MenuAdapter {
         return instance;
     }
 
-
-    public void Get_Menu_File_List(int id) {
+    private void init() {
         OkHttpClient client = new OkHttpClient();
         client.setConnectTimeout(5, TimeUnit.SECONDS);
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrl.BASEHTTP + BaseUrl.BASEIP + BaseUrl.BASEPORT)
                 .client(client)
                 .build();
+    }
+
+
+    /**
+     * 获取用户储存上传的文件列表
+     *
+     * @param id 用户id
+     */
+    public void Get_Menu_File_List(int id) {
         final WebService webService = retrofit.create(WebService.class);
         Call<ResponseBody> responseBodyCall = webService.Get_Menu_File_List(BaseUrl.GET_MENU_FILE_LIST, id + "");
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
@@ -70,13 +80,10 @@ public class MenuAdapter {
         });
     }
 
+    /**
+     * 获取文件加密方式列表
+     */
     public void Get_Menu_File_Type() {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(5, TimeUnit.SECONDS);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BaseUrl.BASEHTTP + BaseUrl.BASEIP + BaseUrl.BASEPORT)
-                .client(client)
-                .build();
         final WebService webService = retrofit.create(WebService.class);
         Call<ResponseBody> responseBodyCall = webService.Get_Menu_File_Type(BaseUrl.GET_MENU_FILE_TYPE);
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
@@ -101,21 +108,18 @@ public class MenuAdapter {
         });
     }
 
+    /**
+     * 加密文件
+     *
+     * @param json EncryptFile的json
+     */
     public void Encrypt_File(String json) {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(5, TimeUnit.SECONDS);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BaseUrl.BASEHTTP + BaseUrl.BASEIP + BaseUrl.BASEPORT)
-                .client(client)
-                .build();
         final WebService webService = retrofit.create(WebService.class);
         Call<ResponseBody> responseBodyCall = webService.Encrypt_File(BaseUrl.ENCRYPT_FILE, json);
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
-                if (response.body() != null) {
 
-                }
             }
 
             @Override
@@ -125,14 +129,13 @@ public class MenuAdapter {
         });
     }
 
+    /**
+     * 设置加密需要的额外信息
+     *
+     * @param json EncryptFile的json
+     */
     public void Set_Encrypt_Inf(String json) {
-        final String s=json;
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(5, TimeUnit.SECONDS);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BaseUrl.BASEHTTP + BaseUrl.BASEIP + BaseUrl.BASEPORT)
-                .client(client)
-                .build();
+        final String s = json;
         final WebService webService = retrofit.create(WebService.class);
         Call<ResponseBody> responseBodyCall = webService.Set_Encrypt_Inf(BaseUrl.SET_ENCRYPT_INF, json);
         responseBodyCall.enqueue(new Callback<ResponseBody>() {

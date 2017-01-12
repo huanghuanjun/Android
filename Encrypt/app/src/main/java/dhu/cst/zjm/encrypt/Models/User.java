@@ -1,14 +1,14 @@
-package dhu.cst.zjm.encrypt.Models;
+package dhu.cst.zjm.encrypt.models;
 
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import dhu.cst.zjm.encrypt.Base.MapKey.LoginMap;
+import dhu.cst.zjm.encrypt.base_data.map_key.LoginMap;
 
 /**
- * Created by admin on 2016/11/3.
+ * Created by zjm on 2016/11/3.
  */
 
 public class User {

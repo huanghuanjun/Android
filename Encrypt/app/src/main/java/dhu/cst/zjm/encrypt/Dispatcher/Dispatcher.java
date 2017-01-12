@@ -1,12 +1,12 @@
-package dhu.cst.zjm.encrypt.Dispatcher;
+package dhu.cst.zjm.encrypt.dispatcher;
 
 import org.greenrobot.eventbus.EventBus;
 
-import dhu.cst.zjm.encrypt.Action.Action;
-import dhu.cst.zjm.encrypt.Stores.Store;
+import dhu.cst.zjm.encrypt.action.Action;
+import dhu.cst.zjm.encrypt.stores.Store;
 
 /**
- * Created by admin on 2016/11/3.
+ * Created by zjm on 2016/11/3.
  */
 
 public class Dispatcher {

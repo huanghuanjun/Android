@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.WebApi;
+package dhu.cst.zjm.encrypt.web_api.web_body;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
@@ -6,8 +6,8 @@ import com.squareup.okhttp.RequestBody;
 import java.io.File;
 import java.io.IOException;
 
-import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Views.UI_Menu_Action;
+import dhu.cst.zjm.encrypt.action.ActionsCreator;
+import dhu.cst.zjm.encrypt.views.UI_Menu_Action;
 import okio.Buffer;
 import okio.BufferedSink;
 import okio.BufferedSource;
@@ -16,7 +16,7 @@ import okio.Okio;
 import okio.Sink;
 
 /**
- * Created by admin on 2017/1/6.
+ * Created by zjm on 2017/1/6.
  */
 
 public class UploadFileRequestBody extends RequestBody {

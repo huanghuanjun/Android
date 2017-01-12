@@ -1,4 +1,4 @@
-package dhu.cst.zjm.encrypt.Service;
+package dhu.cst.zjm.encrypt.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -34,16 +34,16 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
-import dhu.cst.zjm.encrypt.Action.ActionsCreator;
-import dhu.cst.zjm.encrypt.Base.PathAndKey;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
-import dhu.cst.zjm.encrypt.Models.EncryptFile;
-import dhu.cst.zjm.encrypt.Views.UI_Menu_Action;
-import dhu.cst.zjm.encrypt.WebApi.BaseUrl;
-import dhu.cst.zjm.encrypt.WebApi.DownloadFileResponseBody;
-import dhu.cst.zjm.encrypt.WebApi.ProgressListener;
-import dhu.cst.zjm.encrypt.WebApi.UploadFileRequestBody;
-import dhu.cst.zjm.encrypt.WebApi.WebService;
+import dhu.cst.zjm.encrypt.action.ActionsCreator;
+import dhu.cst.zjm.encrypt.base_data.PathAndKey;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.models.EncryptFile;
+import dhu.cst.zjm.encrypt.views.UI_Menu_Action;
+import dhu.cst.zjm.encrypt.base_data.BaseUrl;
+import dhu.cst.zjm.encrypt.web_api.web_body.DownloadFileResponseBody;
+import dhu.cst.zjm.encrypt.web_api.ProgressListener;
+import dhu.cst.zjm.encrypt.web_api.web_body.UploadFileRequestBody;
+import dhu.cst.zjm.encrypt.web_api.WebService;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -51,7 +51,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
- * Created by admin on 2017/1/4.
+ * Created by zjm on 2017/1/4.
  */
 
 public class Menu_Service extends Service {
@@ -82,6 +82,11 @@ public class Menu_Service extends Service {
         return binder;
     }
 
+    /**
+     * 设置用户id
+     *
+     * @param id 用户id
+     */
     public void setID(int id) {
         userId = id;
         try {
@@ -91,6 +96,11 @@ public class Menu_Service extends Service {
         }
     }
 
+    /**
+     * websocket连接服务器
+     *
+     * @throws URISyntaxException
+     */
     public void Try_Connect_Menu() throws URISyntaxException {
         if (webSocketClient != null) {
             webSocketClient.close();
@@ -100,7 +110,7 @@ public class Menu_Service extends Service {
         webSocketClient = new WebSocketClient(new URI(uri), new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake serverHandshake) {
-                Log.e("wlf", "已经连接到服务器【" + getURI() + "】");
+                Log.e("WebSocket", "已经连接到服务器 : " + getURI());
                 actionsCreator.Try_Connect_Menu_Success();
             }
 
@@ -109,7 +119,7 @@ public class Menu_Service extends Service {
                 messageQueue.add(s);
                 while (!messageQueue.isEmpty()) {
                     final String message = messageQueue.remove();
-                    Log.e("wlf", "获取到服务器信息【" + message + "】");
+                    Log.e("WebSocket", "获取到服务器信息 : " + message);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -122,13 +132,13 @@ public class Menu_Service extends Service {
 
             @Override
             public void onClose(int i, String s, boolean b) {
-                Log.e("wlf", "断开服务器连接【" + getURI() + "，状态码： " + i + "，断开原因：" + s + "】");
+                Log.e("WebSocket", "断开服务器连接 : " + getURI() + " 状态码 : " + i + " 断开原因 : " + s);
                 actionsCreator.Web_Socket_Menu_Close(i, s);
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e("wlf", "连接发生了异常【异常原因：" + e.toString() + "】");
+                Log.e("WebSocket", "连接发生了异常 异常原因 : " + e.toString());
                 actionsCreator.Web_Socket_Menu_Error(e);
             }
         };
@@ -140,6 +150,13 @@ public class Menu_Service extends Service {
         }
     }
 
+
+    /**
+     * 上传文件
+     *
+     * @param id   用户id
+     * @param path 文件路径
+     */
     public void Upload_File(int id, String path) {
         final String uploadId = id + "";
         ArrayList<String> paths = new ArrayList<>();
@@ -167,9 +184,7 @@ public class Menu_Service extends Service {
                 stringCall.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
-                        if (response.body() != null) {
 
-                        }
                     }
 
                     @Override
@@ -182,6 +197,12 @@ public class Menu_Service extends Service {
         }.execute();
     }
 
+
+    /**
+     * 下载文件
+     *
+     * @param json EncryptFile的json
+     */
     public void Download_File(String json) {
         OkHttpClient client = new OkHttpClient();
         client.interceptors().add(new Interceptor() {
@@ -214,7 +235,7 @@ public class Menu_Service extends Service {
             @Override
             public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
                 if (response.body() != null) {
-                    PathAndKey pathAndKey=new PathAndKey();
+                    PathAndKey pathAndKey = new PathAndKey();
                     String mainPath = PathAndKey.getPath() + userId + "/";
                     pathAndKey.setPath(mainPath);
                     final String downloadPath = pathAndKey.getFileSavePath();
@@ -227,7 +248,7 @@ public class Menu_Service extends Service {
 
                         @Override
                         protected Void doInBackground(Void... params) {
-                            boolean writtenToDisk = writeResponseBodyToDisk(body, downloadPath, realName);
+                            writeResponseBodyToDisk(body, downloadPath, realName);
                             return null;
                         }
                     }.execute();
@@ -243,6 +264,14 @@ public class Menu_Service extends Service {
 
     }
 
+
+    /**
+     * 获取文件真实名称(不要后缀名)
+     *
+     * @param json EncryptFile的json
+     *
+     * @return 文件真实名称
+     */
     private String getRealFileNameFromJson(String json) {
         Gson gson = new Gson();
         EncryptFile get = gson.fromJson(json, new TypeToken<EncryptFile>() {

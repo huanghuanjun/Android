@@ -1,11 +1,11 @@
-package dhu.cst.zjm.encrypt.Stores;
+package dhu.cst.zjm.encrypt.stores;
 
 
-import dhu.cst.zjm.encrypt.Action.Action;
-import dhu.cst.zjm.encrypt.Dispatcher.Dispatcher;
+import dhu.cst.zjm.encrypt.action.Action;
+import dhu.cst.zjm.encrypt.dispatcher.Dispatcher;
 
 /**
- * Created by admin on 2016/11/3.
+ * Created by zjm on 2016/11/3.
  */
 
 public abstract class Store {
@@ -20,7 +20,9 @@ public abstract class Store {
     }
 
     abstract StoreChangeEvent changeEvent(String changePoint);
+
     public abstract void onAction(Action action);
 
-    public interface StoreChangeEvent {}
+    public interface StoreChangeEvent {
+    }
 }

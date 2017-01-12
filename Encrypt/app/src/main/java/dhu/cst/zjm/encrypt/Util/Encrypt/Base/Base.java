@@ -1,7 +1,7 @@
-package dhu.cst.zjm.encrypt.Util.Encrypt.Base;
+package dhu.cst.zjm.encrypt.util.encrypt.base;
 
 /**
- * Created by 10424 on 2017/1/11.
+ * Created by zjm on 2017/1/11.
  */
 
 public interface Base {

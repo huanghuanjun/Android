@@ -1,7 +1,7 @@
-package dhu.cst.zjm.encrypt.Views;
+package dhu.cst.zjm.encrypt.views;
 
 /**
- * Created by lenovo on 2016/11/30.
+ * Created by zjm on 2016/11/30.
  */
 
 public interface UI_Menu_Action {

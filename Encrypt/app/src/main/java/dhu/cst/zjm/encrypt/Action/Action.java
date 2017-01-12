@@ -1,9 +1,9 @@
-package dhu.cst.zjm.encrypt.Action;
+package dhu.cst.zjm.encrypt.action;
 
 import java.util.HashMap;
 
 /**
- * Created by admin on 2016/11/3.
+ * Created by zjm on 2016/11/3.
  */
 
 public class Action {
